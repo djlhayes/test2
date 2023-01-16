@@ -17,4 +17,5 @@ actions:
     outputs:
       moderately_sensitive:
         cohort: output/descriptive.png
-        
+        cohort2: output/descriptive2.png
+

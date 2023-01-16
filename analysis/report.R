@@ -5,9 +5,22 @@ df_input <- read_csv(
   col_types = cols(patient_id = col_integer(),age = col_double())
 )
 
-plot_age <- ggplot(data=df_input, aes(df_input$age)) + geom_histogram()
+plot_age <- ggplot(data=df_input, aes(df_input$age,fill=sex)) + 
+geom_histogram() +
+labs (title = "Age Distribution",
+x = "Age (years)")
 
 ggsave(
   plot= plot_age,
   filename="descriptive.png", path=here::here("output"),
+)
+
+plot_age_region <- ggplot(data=df_input, aes(df_input$age,fill=region)) + 
+geom_histogram() +
+labs (title = "Age Distribution",
+x = "Age (years)")
+
+ggsave(
+  plot= plot_age_region,
+  filename="descriptive2.png", path=here::here("output"),
 )

@@ -23,7 +23,26 @@ study = StudyDefinition(
         "category": {"ratios": {"M": 0.49, "F": 0.51}},
          },
     ),
-)
 
+    region=patients.registered_practice_as_of(
+        "2020-02-01",
+        returning="nuts1_region_name",
+        return_expectations={
+            "rate": "universal",
+            "category": {
+                "ratios": {
+                    "North East": 0.1,
+                    "North West": 0.1,
+                    "Yorkshire and the Humber": 0.1,
+                    "East Midlands": 0.1,
+                    "West Midlands": 0.1,
+                    "East of England": 0.1,
+                    "London": 0.2,
+                    "South East": 0.2,
+                },
+            },
+        },
+    )
+)
 
 

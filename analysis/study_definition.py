@@ -17,6 +17,24 @@ study = StudyDefinition(
             "int": {"distribution": "population_ages"},
         },
     ),
+
+    bmi=patients.most_recent_bmi(
+        between=["2019-02-01", "2020-02-01"],
+        minimum_age_at_measurement=18,
+        include_measurement_date=True,
+        date_format="YYYY-MM",
+        return_expectations={
+            "date": {   
+                "earliest": "2019-02-01", 
+                "latest": "2020-02-01"},
+            "float": {
+                "distribution": "normal", 
+                "mean": 28, 
+                "stddev": 8},
+            "incidence": 0.80,
+            },
+        ),
+
     sex=patients.sex(
     return_expectations={
         "rate": "universal",
@@ -42,7 +60,8 @@ study = StudyDefinition(
                 },
             },
         },
-    )
+    ),
+
 )
 
 

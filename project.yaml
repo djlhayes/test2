@@ -18,4 +18,14 @@ actions:
       moderately_sensitive:
         cohort: output/descriptive.png
         cohort2: output/descriptive2.png
+        cohort3: output/descriptive3.png
 
+  describe2:
+    run: r:latest analysis/table.R
+    needs: [generate_study_population]
+    outputs:
+      moderately_sensitive:
+        cohort: output/table.csv
+
+  
+    

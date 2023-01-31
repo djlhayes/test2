@@ -7,6 +7,7 @@ study = StudyDefinition(
         "rate": "uniform",
         "incidence": 0.5,
     },
+    #this could be women only or only alive patients or registered for 12months
     population=patients.registered_with_one_practice_between(
         "2019-02-01", "2020-02-01"
     ),
@@ -42,6 +43,15 @@ study = StudyDefinition(
          },
     ),
 
+    ethnicity=patients.with_ethnicity_from_sus(
+    returning="group_6",
+    use_most_frequent_code=True,
+    return_expectations={
+            "category": {"ratios": {"1": 0.8, "2": 0.1, "3": 0.1}},
+            "incidence": 0.75,
+            },
+    ),
+
     region=patients.registered_practice_as_of(
         "2020-02-01",
         returning="nuts1_region_name",
@@ -61,7 +71,8 @@ study = StudyDefinition(
             },
         },
     ),
-
 )
+
+
 
 

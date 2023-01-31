@@ -24,3 +24,18 @@ ggsave(
   plot= plot_age_region,
   filename="descriptive2.png", path=here::here("output"),
 )
+
+plot_age_ethnicity <- ggplot(data=df_input, aes(df_input$age,fill=ethnicity)) +
+geom_histogram() +
+labs (title = "Age by ethnicity",
+x = "Age (years)")
+
+ggsave(
+  plot= plot_age_ethnicity,
+  filename="descriptive3.png", path=here::here("output"),
+)
+
+
+
+
+

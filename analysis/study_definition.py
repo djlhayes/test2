@@ -8,9 +8,25 @@ study = StudyDefinition(
         "incidence": 0.5,
     },
     #this could be women only or only alive patients or registered for 12months
+    #make new study population of 1000 women of reproductive age
+
     population=patients.registered_with_one_practice_between(
-        "2019-02-01", "2020-02-01"
+       "2019-02-01", "2020-02-01"
     ),
+  
+ #population=patients.satisfying(
+     #   """
+      #  registered
+       # AND
+        #(sex = "F")
+        #""",
+
+        #registered=patients.satisfying(
+         #   "registered_with_one_practice_between(
+          #      "2019-02-01", "2020-02-01",
+        #),
+
+    
     age=patients.age_as_of(
         "2019-09-01",
         return_expectations={
@@ -18,6 +34,39 @@ study = StudyDefinition(
             "int": {"distribution": "population_ages"},
         },
     ),
+
+    age_cat=patients.categorised_as(
+        {
+            "0":"DEFAULT",
+            "0-4": """ age >= 0 AND age < 5""",
+            "5-14": """ age >= 5 AND age < 15""",
+            "15-24": """ age >= 15 AND age < 25""",
+            "25-34": """ age >= 25 AND age < 35""",
+            "35-44": """ age >= 35 AND age < 45""",
+            "45-54": """ age >= 45 AND age < 55""",
+            "55-64": """ age >= 55 AND age < 65""",
+            "65-74": """ age >= 65 AND age < 75""",
+            "75+": """ age >= 75 AND age < 120""",
+        },
+        return_expectations={
+            "rate": "universal",
+            "category": {
+                "ratios": {
+                    "0": 0,
+                    "0-4": 0.12, 
+                    "5-14": 0.11,
+                    "15-24": 0.11,
+                    "25-34": 0.11,
+                    "35-44": 0.11,
+                    "45-54": 0.11,
+                    "55-64": 0.11,
+                    "65-74": 0.11,
+                    "75+": 0.11,
+                }
+            },
+        },
+    ),
+
 
     bmi=patients.most_recent_bmi(
         between=["2019-02-01", "2020-02-01"],
@@ -71,6 +120,15 @@ study = StudyDefinition(
             },
         },
     ),
+
+  practice=patients.registered_practice_as_of(
+        "2020-02-01",
+        returning="pseudo_id",
+        return_expectations={"int": {"distribution": "normal",
+                                     "mean": 25, "stddev": 5}, "incidence": 1}
+    ),
+
+
 )
 
 

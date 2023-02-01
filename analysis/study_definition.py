@@ -1,5 +1,16 @@
-from cohortextractor import StudyDefinition, patients, codelist, codelist_from_csv  # NOQA
+from cohortextractor import (
+    StudyDefinition, 
+    patients, 
+    codelist, 
+    codelist_from_csv, 
+    Measure  
+    # NOQA
+)
 
+#start_date = "2019-02-01"
+#end_date = "2020-02-01"
+
+#index_date=start_date,
 
 study = StudyDefinition(
     default_expectations={
@@ -7,6 +18,7 @@ study = StudyDefinition(
         "rate": "uniform",
         "incidence": 0.5,
     },
+
     #this could be women only or only alive patients or registered for 12months
     #make new study population of 1000 women of reproductive age
 
@@ -14,19 +26,15 @@ study = StudyDefinition(
        "2019-02-01", "2020-02-01"
     ),
   
- #population=patients.satisfying(
+    #population=patients.satisfying(
      #   """
-      #  registered
+      #  practice
        # AND
         #(sex = "F")
-        #""",
+       # """,
+    #)
 
-        #registered=patients.satisfying(
-         #   "registered_with_one_practice_between(
-          #      "2019-02-01", "2020-02-01",
-        #),
-
-    
+ 
     age=patients.age_as_of(
         "2019-09-01",
         return_expectations={
@@ -121,16 +129,41 @@ study = StudyDefinition(
         },
     ),
 
-  practice=patients.registered_practice_as_of(
+    practice=patients.registered_practice_as_of(
         "2020-02-01",
         returning="pseudo_id",
         return_expectations={"int": {"distribution": "normal",
                                      "mean": 25, "stddev": 5}, "incidence": 1}
     ),
 
+    admitted=patients.admitted_to_hospital(
+        returning="binary_flag",
+        between=["2019-02-01", "2020-02-01"],
+        return_expectations={"incidence": 0.1},
+    ),
+    
+    #stp=patients.registered_practice_as_of(
+     #   "2019-02-01"
+      #  returning="stp_code",
+       # return_expectations={
+        #    "category": {"ratios": {"stp1": 0.1, "stp2": 0.2, "stp3": 0.3}},
+         #   "incidence": 1,
+        #},
+    #),
 
 )
 
+#Measures
 
+measures = [
+    
+    Measure(id="admissions_by_age",
+            numerator="admitted",
+            denominator="population",
+            group_by=["age"],
+            ),
+]
 
+#needs Measure added to import statements at top 
+#small_number_suppressions to replace values <5 with zero
 

@@ -27,11 +27,7 @@ study = StudyDefinition(
     ),
   
     #population=patients.satisfying(
-     #   """
-      #  practice
-       # AND
-        #(sex = "F")
-       # """,
+     #   "practice AND (sex = 'F')",
     #)
 
  
@@ -143,7 +139,7 @@ study = StudyDefinition(
     ),
     
     #stp=patients.registered_practice_as_of(
-     #   "2019-02-01"
+     #   "2020-02-01"
       #  returning="stp_code",
        # return_expectations={
         #    "category": {"ratios": {"stp1": 0.1, "stp2": 0.2, "stp3": 0.3}},
@@ -154,6 +150,9 @@ study = StudyDefinition(
 )
 
 #Measures
+
+#this is admissions/population by age
+#could be used to look at things like SB by care region
 
 measures = [
     

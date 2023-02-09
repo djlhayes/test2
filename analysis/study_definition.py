@@ -163,6 +163,8 @@ measures = [
             ),
 ]
 
+#could also use age_cat instead of age
+
 #needs Measure added to import statements at top 
 #small_number_suppressions to replace values <5 with zero
 

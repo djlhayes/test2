@@ -6,11 +6,29 @@ expectations:
 actions:
 
   generate_study_population:
-    run: cohortextractor:latest generate_cohort --study-definition study_definition
+    run: cohortextractor:latest generate_cohort --study-definition study_definition --index-date-range "2019-02-01 to today by month" --skip-existing --output-dir=output/measures --output-format=csv.gz
+    #old command without dates below
+    #run: cohortextractor:latest generate_cohort --study-definition study_definition
     outputs:
       highly_sensitive:
-        cohort: output/input.csv
- 
+        cohort: output/measures/input_*.csv.gz
+
+  generate_measures:
+    run: cohortextractor:latest generate_measures --study-definition study_definition --output-dir=output/measures
+    needs: [generate_study_population]
+    outputs:
+     moderately_sensitive:
+        measure_csv: output/measures/measure_*.csv     
+
+  #generate_measures runs now 
+
+  #describe_measures:
+  #run: ***r:latest analysis/filename.R****
+  #needs: [generate_study_population]
+  #  outputs:
+  #    moderately_sensitive:
+  #      percentile: filename.jpeg
+
   describe:
     run: r:latest analysis/report.R
     needs: [generate_study_population]
@@ -18,4 +36,15 @@ actions:
       moderately_sensitive:
         cohort: output/descriptive.png
         cohort2: output/descriptive2.png
+        cohort3: output/descriptive3.png
+
+  describe2:
+    run: r:latest analysis/table.R
+    needs: [generate_study_population]
+    outputs:
+      moderately_sensitive:
+        cohort: output/table.csv
+
+    
+
 

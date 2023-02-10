@@ -7,11 +7,17 @@ from cohortextractor import (
     # NOQA
 )
 
-#start_date = "2019-02-01"
+
+
+start_date = "2019-01-01"
 #end_date = "2020-02-01"
+end_date = datetime.today().strftime('%Y-%m-%d')
+index_year = 2019
+min_age = 14
+max_age = 55
 
-#index_date=start_date,
-
+#study population
+ 
 study = StudyDefinition(
     default_expectations={
         "date": {"earliest": "1900-01-01", "latest": "today"},
@@ -19,18 +25,31 @@ study = StudyDefinition(
         "incidence": 0.5,
     },
 
-    #this could be women only or only alive patients or registered for 12months
-    #make new study population of 1000 women of reproductive age
+    # Set index date to start date
+    index_date=start_date,
 
-    population=patients.registered_with_one_practice_between(
-       "2019-02-01", "2020-02-01"
-    ),
+    #population=patients.registered_with_one_practice_between(
+    #   "2019-02-01", "2020-02-01"
+    #),
   
-    #population=patients.satisfying(
-     #   "practice AND (sex = 'F')",
-    #)
+    population=patients.satisfying(
+        """
+        NOT has_died
+        AND
+        registered
+        AND
+        (age>=14)
+        AND
+        has_follow_up_previous_year
+        AND
+        (sex="F")
+        """,
 
- 
+     has_died=patients.died_from_any_cause(
+            on_or_before="index_date",
+            returning="binary_flag",
+        ),
+
     age=patients.age_as_of(
         "2019-09-01",
         return_expectations={
@@ -46,7 +65,7 @@ study = StudyDefinition(
             "5-14": """ age >= 5 AND age < 15""",
             "15-24": """ age >= 15 AND age < 25""",
             "25-34": """ age >= 25 AND age < 35""",
-            "35-44": """ age >= 35 AND age < 45""",
+            "35-54": """ age >= 35 AND age < 45""",
             "45-54": """ age >= 45 AND age < 55""",
             "55-64": """ age >= 55 AND age < 65""",
             "65-74": """ age >= 65 AND age < 75""",
@@ -159,7 +178,8 @@ measures = [
     Measure(id="admissions_by_age",
             numerator="admitted",
             denominator="population",
-            group_by=["age"],
+            #group_by=["age"],
+            group_by=["age_cat"],
             ),
 ]
 

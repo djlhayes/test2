@@ -151,9 +151,6 @@ study = StudyDefinition(
 
 #Measures
 
-#this is admissions/population by age
-#could be used to look at things like SB by care region
-
 measures = [
     
     Measure(id="admissions_by_age",
@@ -161,9 +158,14 @@ measures = [
             denominator="population",
             group_by=["age"],
             ),
+
+    Measure(id="admissions_by_age_cat",
+            numerator="admitted",
+            denominator="population",
+            group_by=["age_cat"],
+            ),        
 ]
 
-#could also use age_cat instead of age
 
 #needs Measure added to import statements at top 
 #small_number_suppressions to replace values <5 with zero

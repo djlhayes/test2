@@ -45,6 +45,12 @@ actions:
       moderately_sensitive:
         cohort: output/table.csv
 
+  describe3:
+    run: r:latest analysis/measure.R
+    needs: [generate_study_population]
+    outputs:
+      moderately_sensitive:
+        cohort: output/plot_age_cat.jpeg
     
 
 

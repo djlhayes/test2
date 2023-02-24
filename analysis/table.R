@@ -6,7 +6,7 @@ df_input <- read_csv(
 )
 #defining all variable types will make code run faster when there are lots of variables 
 
-dftab <- as.data.frame(table(df_input$sex, df_input$ethnicity))
+dftab <- as.data.frame(table(df_input$sex, df_input$age))
 write_csv(dftab, path=here::here("output","table.csv"))
 
 #write_csv(df_ethSex, path=here::here("output","tab_ethSex.csv"))
